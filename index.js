@@ -1,10 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
-//user: ARMY_WAREHOUSE
-//pass: xvNCe7I5jfwGCH5r
 
 app.use(cors());
 app.use(express.json());
@@ -16,11 +14,19 @@ async function run() {
     try{
         client.connect();
         const vehicleCollection = client.db("WarVehicles").collection("vehicles");
+        //api to get all data
         app.get('/allvehicles', async(req, res)=>{
             const query = {};
             const cursor = vehicleCollection.find(query);
             const result = await cursor.toArray();
             res.send(result);
+        });
+        //api to get one single item
+        app.get('/vehicle/:vehicleId', async(req, res)=>{
+            const itemId = req.params.vehicleId;
+            const query = {_id:ObjectId(itemId)};
+            const item = await vehicleCollection.findOne(query);
+            res.send(item);
         })
     }
     finally{
