@@ -36,7 +36,6 @@ async function run() {
     //api to handle restock
     app.put("/restockvehicle/:id", async (req, res) => {
       const id = req.params.id;
-      console.log(id);
       const updatedVehicle = req.body;
       console.log(updatedVehicle);
       const filter = {_id: ObjectId(id)};
@@ -57,8 +56,31 @@ async function run() {
       );
       res.send(result);
     });
+    app.put("/delivervehicle/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const updatedVehicle = req.body;
+      const filter = {_id: ObjectId(id)};
+      const options = { upsert: true };
+      const updatedDoc = {
+        $set: {
+          name: updatedVehicle.name,
+          category: updatedVehicle.category,
+          description: updatedVehicle.description,
+          image: updatedVehicle.image,
+          price: updatedVehicle.price,
+          quantity: updatedVehicle.quantity,
+          sold: updatedVehicle.sold,
+          supplierName: updatedVehicle.supplierName
+        },
+      };
+      const result = await vehicleCollection.updateOne(filter,updatedDoc,options
+      );
+      res.send(result);
+    });
   } finally {
   }
+
 }
 run().catch(console.dir);
 app.get("/", (req, res) => {
