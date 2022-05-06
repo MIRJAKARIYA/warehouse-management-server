@@ -43,6 +43,7 @@ async function run() {
       const updatedDoc = {
         $set: {
           name: updatedVehicle.name,
+          user: updatedVehicle.user,
           category: updatedVehicle.category,
           description: updatedVehicle.description,
           image: updatedVehicle.image,
