@@ -89,8 +89,17 @@ async function run() {
       res.send(result);
     })
 
+    //api to get product using query
+    app.get('/getVehicles', async(req, res)=>{
+      const query = req.query;
+      console.log(query);
+      const cursor = vehicleCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
     //api to delete vehicle
-    app. delete("/vehicleDlete/:vehicleId", async(req, res)=>{
+    app.delete("/vehicleDlete/:vehicleId", async(req, res)=>{
       const id = req.params.vehicleId;
       const query = {_id: ObjectId(id)};
       const result = await vehicleCollection.deleteOne(query);
