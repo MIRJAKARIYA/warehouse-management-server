@@ -57,6 +57,7 @@ async function run() {
       );
       res.send(result);
     });
+    //api to handle deliver
     app.put("/delivervehicle/:id", async (req, res) => {
       const id = req.params.id;
       console.log(id);
@@ -79,7 +80,25 @@ async function run() {
       );
       res.send(result);
     });
-  } finally {
+
+    //api to handle add item
+    app.post('/addVehicle',async(req, res)=>{
+      const data = req.body;
+      console.log(data);
+      const result = await vehicleCollection.insertOne(data);
+      res.send(result);
+    })
+
+    //api to delete vehicle
+    app. delete("/vehicleDlete/:vehicleId", async(req, res)=>{
+      const id = req.params.vehicleId;
+      const query = {_id: ObjectId(id)};
+      const result = await vehicleCollection.deleteOne(query);
+      res.send(result);
+    })
+  } 
+  finally {
+
   }
 
 }
