@@ -116,7 +116,6 @@ async function run() {
     //api to handle add item
     app.post("/addVehicle", async (req, res) => {
       const data = req.body;
-      console.log(data);
       const result = await vehicleCollection.insertOne(data);
       res.send(result);
     });
@@ -133,7 +132,6 @@ async function run() {
 
     app.get("/getUserItems", VerifyJsonWebToken, async (req, res) => {
       const decodedEmail = req.decoded.email;
-      console.log(decodedEmail);
       const email = req.query.user;
       const filter = req.query;
       if (decodedEmail === email) {
